@@ -32,34 +32,5 @@ namespace noise {
             this.seed = seed;
         }
     }
-
-    // mysterious 2d hash function. little performance effect.
-    const m = 0x5bd1e995;
-    export function hash2(x: number, y: number, seed: number) {
-        let hash = seed;
-
-        // process first vector element
-        let k = x;
-        k *= m;
-        k ^= k >> 24;
-        k *= m;
-        hash *= m;
-        hash ^= k;
-
-        // process second vector element
-        k = y;
-        k *= m;
-        k ^= k >> 24;
-        k *= m;
-        hash *= m;
-        hash ^= k;
-
-        // some final mixing
-        hash ^= hash >> 13;
-        hash *= m;
-        hash ^= hash >> 15;
-
-        return hash;
-    }
 }
 
