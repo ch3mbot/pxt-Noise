@@ -31,8 +31,7 @@ How to initialize a noise generator with a seed:
 ```typescript
 let generator = new noise.PerlinNoise1D(12345);
 ```
-<br />
-The perlin noise generators can optionally be given an interpolation function:
+<br />The perlin noise generators can optionally be given an interpolation function:
 ```typescript
 let generator = new noise.PerlinNoise2D(0, noise.interpolate2DQuint);
 ```
