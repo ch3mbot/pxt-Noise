@@ -19,7 +19,7 @@ namespace noise {
             }
         }
 
-        public override reseed(seed: number = 0) {
+        public reseed(seed: number = 0) {
             super.reseed(seed);
             this.regeneratePermutationTableMod12();
         }
