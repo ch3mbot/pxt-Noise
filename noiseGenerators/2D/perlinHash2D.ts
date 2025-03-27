@@ -19,10 +19,10 @@ namespace noise {
             let offsetX = x - cornerX;
             let offsetY = y - cornerY;
 
-            let v0: number = gradientDot(offsetX - 0, offsetY - 0, hash2(cornerX + 0, cornerY + 0, this.seed));
-            let v1: number = gradientDot(offsetX - 1, offsetY - 0, hash2(cornerX + 1, cornerY + 0, this.seed));
-            let v2: number = gradientDot(offsetX - 0, offsetY - 1, hash2(cornerX + 0, cornerY + 1, this.seed));
-            let v3: number = gradientDot(offsetX - 1, offsetY - 1, hash2(cornerX + 1, cornerY + 1, this.seed));
+            let v0: number = gradientDot2DSimple(offsetX - 0, offsetY - 0, hash2(cornerX + 0, cornerY + 0, this.seed));
+            let v1: number = gradientDot2DSimple(offsetX - 1, offsetY - 0, hash2(cornerX + 1, cornerY + 0, this.seed));
+            let v2: number = gradientDot2DSimple(offsetX - 0, offsetY - 1, hash2(cornerX + 0, cornerY + 1, this.seed));
+            let v3: number = gradientDot2DSimple(offsetX - 1, offsetY - 1, hash2(cornerX + 1, cornerY + 1, this.seed));
 
             return this.interpolationFunction(v0, v1, v2, v3, offsetX, offsetY);
         }

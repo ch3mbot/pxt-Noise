@@ -8,7 +8,7 @@ namespace noise {
     export class OpenSimplexNoise2D implements NoiseGenerator2D {
         private permutationTable: number[];
         private permutationTableMod12: number[];
-        
+
         constructor(seed: number = 0) {
             this.permutationTable = generatePermutationTable(seed);
             this.regeneratePermutationTableMod12();
@@ -55,28 +55,23 @@ namespace noise {
             if (t0 < 0) n0 = 0.0;
             else {
                 t0 *= t0;
-                n0 = t0 * t0 * this.gradDot(gi0, x0, y0);
+                n0 = t0 * t0 * gradientDot2D(gi0, x0, y0);
             }
             let t1: number = 0.5 - x1 * x1 - y1 * y1;
             if (t1 < 0) n1 = 0.0;
             else {
                 t1 *= t1;
-                n1 = t1 * t1 * this.gradDot(gi1, x1, y1);
+                n1 = t1 * t1 * gradientDot2D(gi1, x1, y1);
             }
             let t2: number = 0.5 - x2 * x2 - y2 * y2;
             if (t2 < 0) n2 = 0.0;
             else {
                 t2 *= t2;
-                n2 = t2 * t2 * this.gradDot(gi2, x2, y2);
+                n2 = t2 * t2 * gradientDot2D(gi2, x2, y2);
             }
             // Add contributions from each corner to get the final noise value.
             // The result is scaled to return values in the interval [-1,1].
             return 70.0 * (n0 + n1 + n2);
-        }
-
-        private gradDot(gi: number, x: number, y: number): number {
-            let ind = gi * 2;
-            return GRADS_2D[ind] * x + GRADS_2D[ind + 1] * y;
         }
     }
 }

@@ -1,5 +1,6 @@
 // Constants for different noise algorithms
 namespace noise {
+    // The original permutation table for perlin noise. Used as a default for several different noise algorithms.
     export const PERMUTATION_TABLE: number[] = [
         151, 160, 137,  91,  90,  15, 131,  13, 201,  95,  96,  53, 194, 233,   7, 225,
         140,  36, 103,  30,  69, 142,   8,  99,  37, 240,  21,  10,  23, 190,   6, 148,
@@ -19,9 +20,11 @@ namespace noise {
         222, 114,  67, 29,   24,  72, 243, 141, 128, 195,  78,  66, 215,  61, 156, 180
     ];
 
+    // constants for skewing and unskewing for simplex
     export const SKEW_2D: number = 0.5 * (Math.sqrt(3.0) - 1.0);
     export const UNSKEW_2D: number = (3.0 - Math.sqrt(3.0)) / 6.0;
 
+    // 2d gradient table for simplex noise. Why are there 4 repeated ones? #FIXME figure this out.
     export const GRADS_2D: number[] = [
          1,  1,
         -1,  1,
