@@ -10,7 +10,7 @@ namespace noise {
 
     //#FIXME test this more, but it seems to work.
     // randomly shuffle the permutation table based on a seed. Uses Fisher-Yates shuffle from https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
-    export function generatePermutationTable(seed?: number): number[] {
+    export function generatePermutationTable(seed: number = 0): number[] {
         // set up random number gen 
         let rand = new Math.FastRandom(seed);
 

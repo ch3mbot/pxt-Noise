@@ -9,7 +9,7 @@ namespace noise {
         public interpolationFunction: InterpolationFunction2D;
         private permutationTable: number[];
 
-        constructor(interpolationFunction: InterpolationFunction2D, seed?: number) {
+        constructor(interpolationFunction: InterpolationFunction2D, seed: number = 0) {
             this.reseed(seed);
             this.interpolationFunction = interpolationFunction;
         }
@@ -31,7 +31,7 @@ namespace noise {
             return this.interpolationFunction(v0, v1, v2, v3, offsetX, offsetY);
         }
 
-        public reseed(seed?: number) {
+        public reseed(seed: number = 0) {
             if (!seed || seed == 0) {
                 this.permutationTable = copyPermutationTable();
                 return;

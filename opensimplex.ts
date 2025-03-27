@@ -9,7 +9,7 @@ namespace noise {
         private permutationTable: number[];
         private permutationTableMod12: number[];
         
-        constructor(seed?: number) {
+        constructor(seed: number = 0) {
             this.permutationTable = generatePermutationTable(seed);
             this.regeneratePermutationTableMod12();
         }
