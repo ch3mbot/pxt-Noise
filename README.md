@@ -3,6 +3,21 @@
 
 > Open this page at [https://ch3mbot.github.io/pxt-noise/](https://ch3mbot.github.io/pxt-noise/)
 
+## Description
+
+This extension adds several noise functions.
+
+## Noise Generators
+
+# 1D
+- 1D Perlin noise
+- 1D Perlin noise with hash function
+
+# 2D
+- 2D Perlin noise
+- 2D Perlin noise with hash function
+- 2D open simplex noise
+
 ## Use as Extension
 
 This repository can be added as an **extension** in MakeCode.
@@ -19,6 +34,12 @@ To edit this repository in MakeCode.
 * open [https://arcade.makecode.com/](https://arcade.makecode.com/)
 * click on **Import** then click on **Import URL**
 * paste **https://github.com/ch3mbot/pxt-noise** and click import
+
+## TODO
+- 3D noise
+- 4D noise?
+- Test 1D Perlin noise with hash function
+- 2D worley noise
 
 #### Metadata (used for search, rendering)
 
