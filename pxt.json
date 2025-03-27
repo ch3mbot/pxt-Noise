@@ -1,5 +1,5 @@
 {
-    "name": "Noise",
+    "name": "noise",
     "description": "An extension for generating noise",
     "dependencies": {
         "device": "*"
