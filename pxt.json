@@ -6,7 +6,7 @@
     },
     "files": [
         "README.md",
-        "noise.ts",
+        "noiseFunctions.ts",
         "noiseConstants.ts",
         "noiseTypes.ts",
         "opensimplex.ts",
