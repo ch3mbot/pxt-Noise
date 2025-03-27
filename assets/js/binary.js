@@ -27,7 +27,7 @@ const __this = runtime;
 const pxtrt = pxsim.pxtrt;
 let yieldSteps = 1;
 ectx.setupYield(function() { yieldSteps = 100; })
-pxsim.setTitle("simplexTest");
+pxsim.setTitle("noise");
 pxsim.setConfigData({
  "37": 160,
  "38": 120
