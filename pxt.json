@@ -10,6 +10,9 @@
         "noiseConstants.ts",
         "noiseTypes.ts",
 
+        "noiseGenerators/1D/perlin1D.ts",
+        "noiseGenerators/1D/perlinHash1D.ts",
+
         "noiseGenerators/2D/openSimplex2D.ts",
         "noiseGenerators/2D/perlin2D.ts",
         "noiseGenerators/2D/perlinHash2D.ts"
