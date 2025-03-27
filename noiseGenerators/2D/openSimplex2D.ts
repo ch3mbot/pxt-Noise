@@ -5,20 +5,12 @@ namespace noise {
      *      http://webstaff.itn.liu.se/~stegu/simplexnoise/simplexnoise.pdf (dead but on waybackmachine)
      *      http://weber.itn.liu.se/~stegu/simplexnoise/SimplexNoise.java (dead but on waybackmachine)
      */
-    export class OpenSimplexNoise2D /*extends NoiseGenerator*/ implements NoiseGenerator2D {
+    export class OpenSimplexNoise2D extends NoiseGenerator implements NoiseGenerator2D {
         private permutationTableMod12: number[];
 
-        protected seed: number;
-        protected permutationTable: number[]
-
         constructor(seed: number = 0) {
-            this.reseed(seed);
+            super(seed);
         }
-
-
-        // constructor(seed: number = 0) {
-        //     super(seed);
-        // }
 
         private regeneratePermutationTableMod12() {
             this.permutationTableMod12 = [];
@@ -29,8 +21,7 @@ namespace noise {
 
         //#FIXME test if this still works when the variable type is NoiseGenerator without the override keyword
         public reseed(seed: number = 0) {
-            // super.reseed(seed);
-            this.seed = seed;
+            super.reseed(seed);
             this.regeneratePermutationTableMod12();
         }
 

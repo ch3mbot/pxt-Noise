@@ -38,18 +38,18 @@ namespace noise {
     // ================== Abstract Classes ====================
 
     // A base class for noise generators that use seeds.
-    // export abstract class NoiseGenerator {
-    //     protected seed: number;
-    //     protected permutationTable: number[]
+    export abstract class NoiseGenerator {
+        protected seed: number;
+        protected permutationTable: number[]
 
-    //     constructor(seed: number = 0) {
-    //         this.reseed(seed);
-    //     }
+        constructor(seed: number = 0) {
+            this.reseed(seed);
+        }
 
-    //     public reseed(seed: number = 0) {
-    //         this.seed = seed;
-    //         this.permutationTable = generatePermutationTable(seed);
-    //     }
-    // }
+        public reseed(seed: number = 0) {
+            this.seed = seed;
+            this.permutationTable = generatePermutationTable(seed);
+        }
+    }
 
 }
