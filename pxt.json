@@ -9,7 +9,8 @@
         "noise.ts",
         "noiseConstants.ts",
         "opensimplex.ts",
-        "perlin.ts"
+        "perlin.ts",
+        "perlinHash.ts"
     ],
     "testFiles": [
         "test.ts"
