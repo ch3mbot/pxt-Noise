@@ -46,13 +46,13 @@ namespace noise {
     // ================== Interpolation Functions ====================
 
     // 1D smooth quintic interpolation. linear is slightly faster.
-    export function interpolateQuint1(a0: number, a1: number, w: number): number {
+    export function interpolate1DQuint(a0: number, a1: number, w: number): number {
         // quintic. 6t^5 - 15t^4 + 10t^3 
         return (a1 - a0) * (((w * 6) - 15) * w + 10) * w * w * w + a0;
     }
 
     // 2D quintic interpolation of 4 corners. 
-    export function interpolateQuint2(a0: number, a1: number, a2: number, a3: number, sx: number, sy: number): number {
+    export function interpolate2DQuint(a0: number, a1: number, a2: number, a3: number, sx: number, sy: number): number {
         // slightly faster to reimplement rather than call the 1D function.
         const mult_sx = (((sx * 6) - 15) * sx + 10) * sx * sx * sx;
         const i0 = (a1 - a0) * mult_sx + a0;
@@ -62,13 +62,13 @@ namespace noise {
     }
 
     // 1D simple cubic interpolation. not that slot but not that smooth.
-    export function interpolateCubic1(a0: number, a1: number, t: number): number {
+    export function interpolate1DCubic(a0: number, a1: number, t: number): number {
         // cubic. 3t^2 - 2t^3
         return (a1 - a0) * (3 - (2 * t)) * t * t + a0;
     }
 
     // 2D cubic interpolation of 4 corners. not that slot but not that smooth.
-    export function interpolateCubic2(a0: number, a1: number, a2: number, a3: number, tx: number, ty: number): number {
+    export function interpolate2DCubic(a0: number, a1: number, a2: number, a3: number, tx: number, ty: number): number {
         // slightly faster to reimplement rather than call the 1D function.
         const mult_tx = (3 - (2 * tx)) * tx * tx;
         const i0 = (a1 - a0) * mult_tx + a0;
@@ -77,17 +77,18 @@ namespace noise {
     }
 
     // 1D linear interpolation. fast but not smooth.
-    export function interpolateLin1(a0: number, a1: number, t: number): number {
+    export function interpolate1DLin(a0: number, a1: number, t: number): number {
         return a0 + t * (a1 - a0);
     }
 
     // 2D linear interpolation of 4 corners. fast but not smooth.
-    export function interpolateLin2(a0: number, a1: number, a2: number, a3: number, tx: number, ty: number): number {
+    export function interpolate2DLin(a0: number, a1: number, a2: number, a3: number, tx: number, ty: number): number {
         // slightly faster to reimplement rather than call the 1D function.
         let i0 = a0 + tx * (a1 - a0);
         let i1 = a2 + tx * (a3 - a2);
         return i0 + ty * (i1 - i0);
     }
+
 
 
     // ================== Gradient and Dot Product Functions ====================
