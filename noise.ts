@@ -40,10 +40,6 @@ namespace noise {
         return table;
     }
 
-    export interface NoiseGenerator2D {
-        noise(x: number, y: number): number;
-    }
-
     // 1d smooth quintic interpolation. linear saves about 10ms.
     export function interpolateQuint1(a0: number, a1: number, w: number): number {
         // quintic. 6t^5 - 15t^4 + 10t^3 

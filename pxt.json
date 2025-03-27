@@ -8,6 +8,7 @@
         "README.md",
         "noise.ts",
         "noiseConstants.ts",
+        "noiseTypes.ts",
         "opensimplex.ts",
         "perlin.ts",
         "perlinHash.ts"
