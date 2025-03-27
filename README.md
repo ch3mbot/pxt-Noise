@@ -34,8 +34,8 @@ let generator = new noise.PerlinNoise1D(12345);
 ```typescript
 let generator = new noise.PerlinNoise2D(0, noise.interpolate2DQuint);
 ```
-The default is cubic interpolation. 
-quintic is slower but smoother, while linear is fast but jagged.
+The default interpolation function is cubic interpolation. 
+Quintic is slower but smoother, while linear is fast but jagged.
 
 ## Use as Extension
 
