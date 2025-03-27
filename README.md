@@ -5,18 +5,26 @@
 
 ## Description
 
-This extension adds several noise functions.
+This extension adds several noise generators. 
+Currently only javascript is supported.
 
 ## Noise Generators
 
-# 1D
+### 1D
 - 1D Perlin noise
 - 1D Perlin noise with hash function
 
-# 2D
+### 2D
 - 2D Perlin noise
 - 2D Perlin noise with hash function
 - 2D open simplex noise
+
+## Usage
+How to initialize a noise generator and sample it:
+```typescript
+let generator = new noise.OpenSimplexNoise2D();
+let value = generator.noise(x, y);
+```
 
 ## Use as Extension
 
