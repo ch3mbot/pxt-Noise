@@ -9,7 +9,7 @@
         "noiseFunctions.ts",
         "noiseConstants.ts",
         "noiseTypes.ts",
-        "noiseGenerators/**/*.ts"
+        "noiseGenerators/2D/*.ts"
     ],
     "testFiles": [
         "test.ts"
