@@ -8,7 +8,7 @@ namespace noise {
     export class PerlinNoise2D implements NoiseGenerator2D {
         private interpolationFunction: InterpolationFunction2D;
         private permutationTable: number[];
-        private seed: number;
+
         constructor(interpolationFunction: InterpolationFunction2D, seed?: number) {
             this.reseed(seed);
             this.interpolationFunction = interpolationFunction;
@@ -42,13 +42,12 @@ namespace noise {
 
         public reseed(seed?: number) {
             if (!seed || seed == 0) {
-                this.seed = 0;
                 this.permutationTable = copyPermutationTable();
                 return;
             }
 
-            this.seed = seed;
             this.permutationTable = generatePermutationTable(seed);
         }
     }
 }
+

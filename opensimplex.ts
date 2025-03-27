@@ -8,6 +8,7 @@ namespace noise {
     export class OpenSimplexNoise2D implements NoiseGenerator2D {
         private permutationTable: number[];
         private permutationTableMod12: number[];
+        
         constructor(seed?: number) {
             this.permutationTable = generatePermutationTable(seed);
             this.regeneratePermutationTableMod12();
