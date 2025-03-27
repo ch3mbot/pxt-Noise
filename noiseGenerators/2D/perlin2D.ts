@@ -9,7 +9,7 @@ namespace noise {
         // choice of interpolation function has a large performance effect.
         public interpolationFunction: InterpolationFunction2D;
 
-        constructor(interpolationFunction: InterpolationFunction2D = interpolate2DCubic, seed: number = 0) {
+        constructor(seed: number = 0, interpolationFunction: InterpolationFunction2D = interpolate2DCubic) {
             super(seed);
             this.interpolationFunction = interpolationFunction;
         }
