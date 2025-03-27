@@ -26,8 +26,7 @@ let generator = new noise.OpenSimplexNoise2D();
 let value = generator.noise(x, y);
 ```
 The default seed is 0. When seed is set to 0 the default permutation table is used. 
-<br />
-How to initialize a noise generator with a seed:
+<br /><br />How to initialize a noise generator with a seed:
 ```typescript
 let generator = new noise.PerlinNoise1D(12345);
 ```
