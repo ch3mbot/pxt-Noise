@@ -127,8 +127,8 @@ namespace noise {
         throw "broke, never go here (gradientDot)"
     }
 
-    
-    // ================== Pseudorandom number generation and hash functions ====================
+
+    // ================== Pseudorandom Number Generation and Hash Functions ====================
 
     // mysterious 2d hash function. little performance effect.
     const m = 0x5bd1e995;
@@ -177,5 +177,11 @@ namespace noise {
         hash ^= hash >> 15;
 
         return hash;
+    }
+
+
+    // ================== Misc Math Functions ====================
+    export function clamp(val: number): number {
+        return Math.max(-1, Math.min(val, 1));
     }
 }
