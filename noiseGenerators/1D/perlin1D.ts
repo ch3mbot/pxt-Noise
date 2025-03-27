@@ -18,7 +18,7 @@ namespace noise {
             let cornerX = Math.floor(x);
             let offsetX = x - cornerX;
 
-            const hX = Math.floor(x) & 255;
+            const hX = cornerX & 255;
 
             // No dot product called since it's easy in 1D
             let v0: number = (offsetX - 0) * this.permutationTable[this.permutationTable[hX + 0]];

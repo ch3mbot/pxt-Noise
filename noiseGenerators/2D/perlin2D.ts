@@ -20,8 +20,8 @@ namespace noise {
             let offsetX = x - cornerX;
             let offsetY = y - cornerY;
 
-            const hX = Math.floor(x) & 255;
-            const hY = Math.floor(y) & 255;
+            const hX = cornerX & 255;
+            const hY = cornerY & 255;
 
             let v0: number = gradientDot2DSimple(offsetX - 0, offsetY - 0, this.permutationTable[this.permutationTable[hX + 0] + hY + 0]);
             let v1: number = gradientDot2DSimple(offsetX - 1, offsetY - 0, this.permutationTable[this.permutationTable[hX + 1] + hY + 0]);
