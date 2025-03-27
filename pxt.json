@@ -9,9 +9,7 @@
         "noiseFunctions.ts",
         "noiseConstants.ts",
         "noiseTypes.ts",
-        "opensimplex.ts",
-        "perlin.ts",
-        "perlinHash.ts"
+        "noiseGenerators/**/*.ts"
     ],
     "testFiles": [
         "test.ts"
