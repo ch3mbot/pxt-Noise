@@ -1,5 +1,5 @@
 namespace noise {
-    // make a size 512 table from copying the permutation table twice
+    // make a size 512 table from copying the basic permutation table twice
     export function copyPermutationTable(): number[] {
         let table: number[] = [];
         for (let i = 0; i < 512; i++) {
@@ -9,6 +9,7 @@ namespace noise {
     }
 
     //#FIXME test this more, but it seems to work.
+    // randomly shuffle the permutation table based on a seed. Uses Fisher-Yates shuffle from https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
     export function generatePermutationTable(seed?: number): number[] {
         // set up random number gen 
         let rand = new Math.FastRandom(seed);
@@ -33,7 +34,7 @@ namespace noise {
 
         // copy the second half of the table
         for (let i = 256; i < 512; i++) {
-            table[i] = table[i - 255];
+            table[i] = table[i & 255];
         }
 
         return table;
@@ -41,53 +42,6 @@ namespace noise {
 
     export interface NoiseGenerator2D {
         noise(x: number, y: number): number;
-    }
-
-    // mysterious 2d hash function. little performance effect.
-    const m = 0x5bd1e995;
-    export function hash2(x: number, y: number, seed: number) {
-        let hash = seed;
-
-        // process first vector element
-        let k = x;
-        k *= m;
-        k ^= k >> 24;
-        k *= m;
-        hash *= m;
-        hash ^= k;
-
-        // process second vector element
-        k = y;
-        k *= m;
-        k ^= k >> 24;
-        k *= m;
-        hash *= m;
-        hash ^= k;
-
-        // some final mixing
-        hash ^= hash >> 13;
-        hash *= m;
-        hash ^= hash >> 15;
-
-        return hash;
-    }
-
-    // skip the middle man and return the dot product of offset, since gradient's are known
-    export function gradientDot(offsetX: number, offsetY: number, val: number): number {
-        let mag = Math.sqrt((offsetX * offsetX) + (offsetY * offsetY) + 0.01) * Math.SQRT2;
-        // let mag = Math.sqrt((offsetX * offsetX) + (offsetY * offsetY)) * Math.SQRT2;
-        switch (val & 3) {
-            case 0:
-                return (offsetX + offsetY) / mag;
-            case 1:
-                return (-offsetX + offsetY) / mag;
-            case 2:
-                return (offsetX - offsetY) / mag;
-            case 3:
-                return (-offsetX - offsetY) / mag;
-        }
-
-        throw "broke, never go here (gradientDot)"
     }
 
     // 1d smooth quintic interpolation. linear saves about 10ms.
