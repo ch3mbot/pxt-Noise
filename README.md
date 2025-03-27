@@ -19,7 +19,16 @@ Currently only javascript is supported.
 - 2D Perlin noise with hash function
 - 2D open simplex noise
 
-## Usage
+## Use as Extension
+
+This repository can be added as an **extension** in MakeCode.
+
+* open [https://arcade.makecode.com/](https://arcade.makecode.com/)
+* click on **New Project**
+* click on **Extensions** under the gearwheel menu
+* search for **https://github.com/ch3mbot/pxt-noise** and import
+
+## Usage Examples
 How to initialize a noise generator and sample it:
 ```typescript
 let generator = new noise.OpenSimplexNoise2D();
@@ -36,15 +45,6 @@ let generator = new noise.PerlinNoise2D(0, noise.interpolate2DQuint);
 ```
 The default interpolation function is cubic interpolation. 
 Quintic is slower but smoother, while linear is fast but jagged.
-
-## Use as Extension
-
-This repository can be added as an **extension** in MakeCode.
-
-* open [https://arcade.makecode.com/](https://arcade.makecode.com/)
-* click on **New Project**
-* click on **Extensions** under the gearwheel menu
-* search for **https://github.com/ch3mbot/pxt-noise** and import
 
 ## Edit this project
 
