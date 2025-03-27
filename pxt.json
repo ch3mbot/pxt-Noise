@@ -1,0 +1,32 @@
+{
+    "name": "simplexTest",
+    "description": "",
+    "dependencies": {
+        "device": "*"
+    },
+    "files": [
+        "main.blocks",
+        "main.ts",
+        "README.md",
+        "assets.json",
+        "noise.ts",
+        "noiseConstants.ts",
+        "opensimplex.ts",
+        "perlin.ts"
+    ],
+    "testFiles": [
+        "test.ts"
+    ],
+    "targetVersions": {
+        "branch": "v2.0.40",
+        "tag": "v2.0.40",
+        "commits": "https://github.com/microsoft/pxt-arcade/commits/e365009949b9c899fc4c9914e30e362bd22a209b",
+        "target": "2.0.40",
+        "pxt": "11.3.48",
+        "targetId": "arcade"
+    },
+    "supportedTargets": [
+        "arcade"
+    ],
+    "preferredEditor": "tsprj"
+}
