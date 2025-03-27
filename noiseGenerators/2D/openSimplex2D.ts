@@ -19,8 +19,10 @@ namespace noise {
             }
         }
 
+        //#FIXME test if this still works when the variable type is NoiseGenerator without the override keyword
         public reseed(seed: number = 0) {
             super.reseed(seed);
+            console.log("child seed function called.");
             this.regeneratePermutationTableMod12();
         }
 
