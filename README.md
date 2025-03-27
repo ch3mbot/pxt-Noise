@@ -25,13 +25,14 @@ How to initialize a noise generator and sample it:
 let generator = new noise.OpenSimplexNoise2D();
 let value = generator.noise(x, y);
 ```
-The default seed is 0. This seed will use the default permutation table. <br />
+The default seed is 0. When seed is set to 0 the default permutation table is used. 
+<br />
 How to initialize a noise generator with a seed:
 ```typescript
 let generator = new noise.PerlinNoise1D(12345);
 ```
-
-The perlin noise generators can optionally be given an interpolation function.
+<br />
+The perlin noise generators can optionally be given an interpolation function:
 ```typescript
 let generator = new noise.PerlinNoise2D(0, noise.interpolate2DQuint);
 ```
