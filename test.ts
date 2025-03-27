@@ -21,7 +21,7 @@ let zoom = 4;
 let offsetX = 0;
 let offsetY = 0;
 
-let octaves = 4;
+let octaves = 1;
 function redrawBackground() {
     for (let x = 0; x < 160; x++) {
         for (let y = 0; y < 120; y++) {
