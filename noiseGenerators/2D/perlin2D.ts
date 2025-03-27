@@ -5,13 +5,12 @@ namespace noise {
      *      https://rtouti.github.io/graphics/perlin-noise-algorithm
      *      https://en.wikipedia.org/wiki/Perlin_noise
      */
-    export class PerlinNoise2D implements NoiseGenerator2D {
+    export class PerlinNoise2D extends NoiseGenerator implements NoiseGenerator2D {
         // choice of interpolation function has a large performance effect.
         public interpolationFunction: InterpolationFunction2D;
-        private permutationTable: number[];
 
-        constructor(interpolationFunction: InterpolationFunction2D, seed: number = 0) {
-            this.reseed(seed);
+        constructor(interpolationFunction: InterpolationFunction2D = interpolateCubic2, seed: number = 0) {
+            super(seed);
             this.interpolationFunction = interpolationFunction;
         }
 
@@ -30,15 +29,6 @@ namespace noise {
             let v3: number = gradientDot2DSimple(offsetX - 1, offsetY - 1, this.permutationTable[this.permutationTable[hX + 1] + hY + 1]);
 
             return this.interpolationFunction(v0, v1, v2, v3, offsetX, offsetY);
-        }
-
-        public reseed(seed: number = 0) {
-            if (!seed || seed == 0) {
-                this.permutationTable = copyPermutationTable();
-                return;
-            }
-
-            this.permutationTable = generatePermutationTable(seed);
         }
     }
 }

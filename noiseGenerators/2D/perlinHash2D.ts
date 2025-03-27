@@ -5,11 +5,12 @@ namespace noise {
      *      https://rtouti.github.io/graphics/perlin-noise-algorithm
      *      https://en.wikipedia.org/wiki/Perlin_noise
      */
-    export class PerlinNoiseHash2D implements NoiseGenerator2D {
+    export class PerlinNoiseHash2D extends NoiseGenerator implements NoiseGenerator2D {
+        // choice of interpolation function has a large performance effect.
         public interpolationFunction: InterpolationFunction2D;
-        private seed: number;
-        constructor(interpolationFunction: InterpolationFunction2D, seed: number = 0) {
-            this.reseed(seed);
+
+        constructor(interpolationFunction: InterpolationFunction2D = interpolateCubic2, seed: number = 0) {
+            super(seed);
             this.interpolationFunction = interpolationFunction;
         }
 

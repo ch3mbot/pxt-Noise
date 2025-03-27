@@ -5,13 +5,11 @@ namespace noise {
      *      http://webstaff.itn.liu.se/~stegu/simplexnoise/simplexnoise.pdf (dead but on waybackmachine)
      *      http://weber.itn.liu.se/~stegu/simplexnoise/SimplexNoise.java (dead but on waybackmachine)
      */
-    export class OpenSimplexNoise2D implements NoiseGenerator2D {
-        private permutationTable: number[];
+    export class OpenSimplexNoise2D extends NoiseGenerator implements NoiseGenerator2D {
         private permutationTableMod12: number[];
 
         constructor(seed: number = 0) {
-            this.permutationTable = generatePermutationTable(seed);
-            this.regeneratePermutationTableMod12();
+            super(seed);
         }
 
         private regeneratePermutationTableMod12() {
@@ -19,6 +17,11 @@ namespace noise {
             for (let i = 0; i < 512; i++) {
                 this.permutationTableMod12.push(this.permutationTable[i] % 12);
             }
+        }
+
+        public override reseed(seed: number = 0) {
+            super.reseed(seed);
+            this.regeneratePermutationTableMod12();
         }
 
         public noise(x: number, y: number): number {
