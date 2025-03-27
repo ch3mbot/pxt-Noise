@@ -1,14 +1,11 @@
 {
-    "name": "simplexTest",
-    "description": "",
+    "name": "Noise",
+    "description": "An extension for generating noise",
     "dependencies": {
         "device": "*"
     },
     "files": [
-        "main.blocks",
-        "main.ts",
         "README.md",
-        "assets.json",
         "noise.ts",
         "noiseConstants.ts",
         "opensimplex.ts",
