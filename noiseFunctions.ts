@@ -54,9 +54,9 @@ namespace noise {
     // 2D quintic interpolation of 4 corners. 
     export function interpolate2DQuint(a0: number, a1: number, a2: number, a3: number, sx: number, sy: number): number {
         // slightly faster to reimplement rather than call the 1D function.
-        const mult_sx = (((sx * 6) - 15) * sx + 10) * sx * sx * sx;
-        const i0 = (a1 - a0) * mult_sx + a0;
-        const i1 = (a3 - a2) * mult_sx + a2;
+        const multX = (((sx * 6) - 15) * sx + 10) * sx * sx * sx;
+        const i0 = (a1 - a0) * multX + a0;
+        const i1 = (a3 - a2) * multX + a2;
 
         return (i1 - i0) * (((sy * 6) - 15) * sy + 10) * sy * sy * sy + i0;
     }
@@ -70,9 +70,9 @@ namespace noise {
     // 2D cubic interpolation of 4 corners. not that slot but not that smooth.
     export function interpolate2DCubic(a0: number, a1: number, a2: number, a3: number, tx: number, ty: number): number {
         // slightly faster to reimplement rather than call the 1D function.
-        const mult_tx = (3 - (2 * tx)) * tx * tx;
-        const i0 = (a1 - a0) * mult_tx + a0;
-        const i1 = (a1 - a0) * mult_tx + a0;
+        const multX = (3 - (2 * tx)) * tx * tx;
+        const i0 = (a1 - a0) * multX + a0;
+        const i1 = (a1 - a0) * multX + a0;
         return (i1 - i0) * (3 - (2 * ty)) * ty * ty + i0;
     }
 
@@ -89,7 +89,18 @@ namespace noise {
         return i0 + ty * (i1 - i0);
     }
 
+    // 1D cosine based interpolation. slow and not that smooth.
+    export function interpolateCos1D(t0: number, t1: number, alpha: number): number {
+        return (t1 - t0) * ((1 - Math.cos(Math.PI * alpha)) / 2) + t0;
+    }
 
+    // 2D cosine based interpolation of 4 corners. slow and not that smooth.
+    export function interpolateCos2D(t0: number, t1: number, t2: number, t3: number, alphaX: number, alphaY: number): number {
+        const multX = ((1 - Math.cos(Math.PI * alphaX)) / 2)
+        const i0 = (t1 - t0) * multX + t0;
+        const i1 = (t3 - t2) * multX + t2;
+        return (i1 - i0) * ((1 - Math.cos(Math.PI * alphaY)) / 2) + i0;
+    }
 
     // ================== Gradient and Dot Product Functions ====================
 
