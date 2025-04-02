@@ -21,8 +21,8 @@ namespace noise {
             const hX = Math.floor(x) & 255;
 
             // No dot product called since it's easy in 1D. #FIXME hash function untested
-            let v0: number = (offsetX - 0) * hash1(hX + 0, this.seed);
-            let v1: number = (offsetX - 1) * hash1(hX + 1, this.seed);
+            let v0: number = (offsetX - 0) * hash2(hX + 0, hX + 1, this.seed);
+            let v1: number = (offsetX - 1) * hash2(hX + 1, 0 - hX, this.seed);
 
             return this.interpolationFunction(v0, v1, offsetX);
         }

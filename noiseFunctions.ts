@@ -110,7 +110,7 @@ namespace noise {
         return GRADS_2D[ind] * x + GRADS_2D[ind + 1] * y;
     }
 
-    // returns the 2D dot product given and X and Y, and a (random?) value. Only uses one of four diagonals for gradient.
+    // returns the 2D dot product given and X and Y, and a (random?) value. Only uses one of four diagonals for gradient. Used by perlin noises
     export function gradientDot2DSimple(offsetX: number, offsetY: number, val: number): number {
         let mag = Math.sqrt((offsetX * offsetX) + (offsetY * offsetY) + 0.01) * Math.SQRT2;
         switch (val & 3) {
@@ -132,7 +132,7 @@ namespace noise {
 
     // mysterious 2d hash function. little performance effect.
     const m = 0x5bd1e995;
-    export function hash2(x: number, y: number, seed: number) {
+    export function hash2(x: number, y: number, seed: number): number {
         let hash = seed;
 
         // process first vector element
@@ -159,8 +159,8 @@ namespace noise {
         return hash;
     }
 
-    // 1d hash function based on the 2d hash function #FIXME test this
-    export function hash1(x: number, seed: number) {
+    // 1D hash function based on the 2D hash function.
+    export function hash1(x: number, seed: number): number {
         let hash = seed;
 
         // process first vector element
@@ -178,7 +178,6 @@ namespace noise {
 
         return hash;
     }
-
 
     // ================== Misc Math Functions ====================
     export function clamp(val: number): number {

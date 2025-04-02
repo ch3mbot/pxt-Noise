@@ -5,23 +5,52 @@ namespace noise {
      *      https://rtouti.github.io/graphics/perlin-noise-algorithm
      *      https://en.wikipedia.org/wiki/Perlin_noise
      */
-    export class WroleyNoise2D extends NoiseGenerator implements NoiseGenerator2D {
-        public static cellSize = 64;
+    export class WorleyNoise2D extends NoiseGenerator implements NoiseGenerator2D {
+        public cellSize: number;
+
+        private maximum: number;
+        private noiseFunction: (hX: number, hY: number, oX: number, oY: number) => number;
+
+        constructor(seed: number = 0, cellSize: number = 64, order: WorleyNoise2D.Order) {
+            super(seed);
+            this.cellSize = cellSize;
+
+            this.maximum = cellSize * cellSize + 1;
+            this.setOrder(order);
+        }
+
+        public setOrder(order: WorleyNoise2D.Order) {
+            switch (order) {
+                case 0:
+                    this.noiseFunction = (hX: number, hY: number, oX: number, oY: number) => this.firstOrderNoise(hX, hY, oX, oY);
+                    break;
+                case 1:
+                    this.noiseFunction = (hX: number, hY: number, oX: number, oY: number) => this.secondOrderNoise(hX, hY, oX, oY);
+                    break;
+                case 2:
+                    this.noiseFunction = (hX: number, hY: number, oX: number, oY: number) => this.thirdOrderNoise(hX, hY, oX, oY);
+                    break;
+            }
+        }
 
         public noise(x: number, y: number): number {
-            const cx = Math.floor(x / WroleyNoise2D.cellSize);
-            const cy = Math.floor(y / WroleyNoise2D.cellSize);
-            const oX = x - (cx * WroleyNoise2D.cellSize);
-            const oY = y - (cy * WroleyNoise2D.cellSize);
+            const cx = Math.floor(x / this.cellSize);
+            const cy = Math.floor(y / this.cellSize);
+            const ox = x - (cx * this.cellSize);
+            const oy = y - (cy * this.cellSize);
 
             // add one to each because of negative direction adjacent cells
-            const hX = (cx & 255) + 2;
-            const hY = (cy & 255) + 2;
+            const hx = (cx & 255) + 2;
+            const hy = (cy & 255) + 2;
 
-            let minDist = 64 * 64 * 2 * 999; //impossible for it to be this high. 
-            for (let cox = -2; cox <= 2; cox++) {
-                for (let coy = -2; coy <= 2; coy++) {
-                    const dist = this.distanceSquared(hX, hY, oX, oY, cox, coy);
+            return this.noiseFunction(hx, hy, ox, oy)
+        }
+
+        private firstOrderNoise(hx: number, hy: number, ox: number, oy: number): number {
+            let minDist = this.maximum; //impossible for it to be this high. 
+            for (let cox = -1; cox <= 1; cox++) {
+                for (let coy = -1; coy <= 1; coy++) {
+                    const dist = this.distanceSquared(hx, hy, ox, oy, cox, coy);
                     if (dist < minDist) {
                         minDist = dist;
                     }
@@ -34,13 +63,54 @@ namespace noise {
             return val;
         }
 
+        private secondOrderNoise(hx: number, hy: number, ox: number, oy: number): number {
+            let min1 = 99999;
+            let min2 = min1;
+            for (let cox = -1; cox <= 1; cox++) {
+                for (let coy = -1; coy <= 1; coy++) {
+                    const dist = this.distanceSquared(hx, hy, ox, oy, cox, coy);
+                    if (dist < min1) {
+                        min2 = min1;
+                        min1 = dist;
+                    } else if (dist < min2) {
+                        min2 = dist;
+                    }
+                }
+            }
+
+            return (Math.sqrt(min2) * 2) - 1;
+        }
+
+        private thirdOrderNoise(hx: number, hy: number, ox: number, oy: number): number {
+            let min1 = 99999;
+            let min2 = min1;
+            let min3 = min2;
+            for (let cox = -1; cox <= 1; cox++) {
+                for (let coy = -1; coy <= 1; coy++) {
+                    const dist = this.distanceSquared(hx, hy, ox, oy, cox, coy);
+                    if (dist < min1) {
+                        min3 = min2;
+                        min2 = min1;
+                        min1 = dist;
+                    } else if (dist < min2) {
+                        min3 = min2;
+                        min2 = dist;
+                    } else if (dist < min3) {
+                        min3 = dist;
+                    }
+                }
+            }
+
+            return (Math.sqrt(min2) * 2) - 1;
+        }
+
         // p for point, q for mystery point
         private distanceSquared(hX: number, hY: number, pox: number, poy: number, cox: number, coy: number) {
             // const qox = this.permutationTable[this.permutationTable[hX + cox]] / 255.0;
             // const qoy = this.permutationTable[this.permutationTable[hY + coy]] / 255.0;
 
-            const qox = (hash1(hX + cox, this.seed) & 255) / 128;
-            const qoy = (hash1(hY + coy, this.seed) & 255) / 128;
+            const qox = (hash2(hX + cox, hY + coy, this.seed) & 255) / 256.0;
+            const qoy = (hash2(hY + coy, -hX - cox, this.seed) & 255) / 256.0;
 
             // const qox = 0.5;
             // const qoy = 0.5;
@@ -50,13 +120,21 @@ namespace noise {
             // const dx = (pox - (cox * WroleyNoise2D.cellSize) - (qox * WroleyNoise2D.cellSize)) / WroleyNoise2D.cellSize
             // const dy = (poy - (coy * WroleyNoise2D.cellSize) - (qoy * WroleyNoise2D.cellSize)) / WroleyNoise2D.cellSize
 
-            const dx = (pox - (qox + cox) * WroleyNoise2D.cellSize) / WroleyNoise2D.cellSize;
-            const dy = (poy - (qoy + coy) * WroleyNoise2D.cellSize) / WroleyNoise2D.cellSize;
+            const dx = (pox - (qox + cox) * this.cellSize) / this.cellSize;
+            const dy = (poy - (qoy + coy) * this.cellSize) / this.cellSize;
 
             // if (((dx * dx) < 0.01) && ((dy * dy) < 0.01))
             //     return -1;
 
             return ((dx * dx) + (dy * dy));
+        }
+    }
+
+    export namespace WorleyNoise2D {
+        export enum Order {
+            first,
+            second,
+            third
         }
     }
 }

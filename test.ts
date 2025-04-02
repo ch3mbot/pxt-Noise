@@ -5,14 +5,15 @@ scene.setBackgroundImage(backgroundImage)
 // color options
 let palBufGray: Buffer = hex`000000111111222222333333444444555555666666777777888888999999aaaaaabbbbbbccccccddddddeeeeeeffffff`
 let palBufColr: Buffer = hex`0000000000FF0033FF00FFFF00BBAAFFFF44FFCC1100CC0000FF0000AA66888888999999aaaaaabbbbbbddddddffffff`
+let palBufCol2: Buffer = hex`0000000000FF0033FF37778F00BBAAFFFF44FFCC1100CC0000FF0000AA66888888999999aaaaaabbbbbbddddddffffff`
 let palBufDebg: Buffer = hex`0000000000FF0033FF00FFFF00BBAAFFFF44FFCC1100CC0000FF0000AA66888888999999ffaa00ff00ffff0000ffffff`
-image.setPalette(palBufGray)
+image.setPalette(palBufCol2)
 
 // noise gens
 let simpGen = new noise.OpenSimplexNoise2D();
 let perGen = new noise.PerlinNoise2D(0, noise.interpolate2DQuint);
 let perHash = new noise.PerlinNoiseHash2D(0, noise.interpolate2DQuint);
-let worlGen = new noise.WroleyNoise2D();
+let worlGen = new noise.WorleyNoise2D(0, 64, 2);
 
 let useSimplex = false;
 
@@ -21,26 +22,27 @@ let zoom = 4;
 let offsetX = 0;
 let offsetY = 0;
 
-let octaves = 1;
+let octaves = 4;
 function redrawBackground() {
     for (let x = 0; x < 160; x++) {
         for (let y = 0; y < 120; y++) {
             let val = 0;
             let currFreq = 1;
             let currAmp = 1;
-            for (let i = 0; i < octaves; i++) {
-                if (useSimplex)
+            if (useSimplex)
+                for (let i = 0; i < octaves; i++) {
                     val += simpGen.noise((x * zoom + offsetX) * currFreq / 160, (y * zoom + offsetY) * currFreq / 160) * currAmp;
-                else
-                    // val += perGen.noise((x * zoom + offsetX) * currFreq / 160, (y * zoom + offsetY) * currFreq / 160) * currAmp;
-                    val += worlGen.noise((x * zoom + offsetX) * currFreq / 160, (y * zoom + offsetY) * currFreq / 160) * currAmp;
 
-                currFreq *= 2;
-                currAmp /= 2;
-            }
+                    currFreq *= 2;
+                    currAmp /= 2;
+                }
+            else
+                // val += perGen.noise((x * zoom + offsetX) * currFreq / 160, (y * zoom + offsetY) * currFreq / 160) * currAmp;
+                val += worlGen.noise((x * zoom + offsetX) * currFreq / 160, (y * zoom + offsetY) * currFreq / 160) * currAmp;
+
             val = noise.clamp(val);
 
-            val = (val + 1) / 2;
+            val = ((val / 1.189) + 1) / 2;
             val = Math.round(val * 14) + 1;
 
             backgroundImage.setPixel(x, y, val)
@@ -95,12 +97,12 @@ forever(function () {
         game.splash("doing range test...");
         let min = 9999;
         let max = -9999;
-        for(let i = 0; i < 100 * 1000; i++) {
+        for (let i = 0; i < 100 * 1000; i++) {
             let val = simpGen.noise(i / 123.4, i / 123.4);
-            if(val > max)
-            max = val
-            if(val < min)
-            min = val
+            if (val > max)
+                max = val
+            if (val < min)
+                min = val
         }
         game.splash("min: " + min, "max: " + max);
 
