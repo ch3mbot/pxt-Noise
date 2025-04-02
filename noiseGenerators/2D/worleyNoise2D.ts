@@ -9,28 +9,14 @@ namespace noise {
         public cellSize: number;
 
         private maximum: number;
-        private noiseFunction: (hX: number, hY: number, oX: number, oY: number) => number;
+        private order: WorleyNoise2D.Order;
 
         constructor(seed: number = 0, cellSize: number = 64, order: WorleyNoise2D.Order) {
             super(seed);
             this.cellSize = cellSize;
 
             this.maximum = cellSize * cellSize + 1;
-            this.setOrder(order);
-        }
-
-        public setOrder(order: WorleyNoise2D.Order) {
-            switch (order) {
-                case 0:
-                    this.noiseFunction = (hX: number, hY: number, oX: number, oY: number) => this.firstOrderNoise(hX, hY, oX, oY);
-                    break;
-                case 1:
-                    this.noiseFunction = (hX: number, hY: number, oX: number, oY: number) => this.secondOrderNoise(hX, hY, oX, oY);
-                    break;
-                case 2:
-                    this.noiseFunction = (hX: number, hY: number, oX: number, oY: number) => this.thirdOrderNoise(hX, hY, oX, oY);
-                    break;
-            }
+            this.order = order
         }
 
         public noise(x: number, y: number): number {
@@ -43,65 +29,58 @@ namespace noise {
             const hx = (cx & 255) + 2;
             const hy = (cy & 255) + 2;
 
-            return this.noiseFunction(hx, hy, ox, oy)
-        }
+            let min1 = this.maximum;
+            let min2 = this.maximum;
+            let min3 = this.maximum;
 
-        private firstOrderNoise(hx: number, hy: number, ox: number, oy: number): number {
-            let minDist = this.maximum; //impossible for it to be this high. 
-            for (let cox = -1; cox <= 1; cox++) {
-                for (let coy = -1; coy <= 1; coy++) {
-                    const dist = this.distanceSquared(hx, hy, ox, oy, cox, coy);
-                    if (dist < minDist) {
-                        minDist = dist;
+            switch (this.order) {
+                case 0:
+                    let minDist = this.maximum; //impossible for it to be this high. 
+                    for (let cox = -1; cox <= 1; cox++) {
+                        for (let coy = -1; coy <= 1; coy++) {
+                            const dist = this.distanceSquared(hx, hy, ox, oy, cox, coy);
+                            if (dist < minDist) {
+                                minDist = dist;
+                            }
+                        }
                     }
-                }
+        
+                    return Math.sqrt(minDist);
+                case 1:
+                    for (let cox = -1; cox <= 1; cox++) {
+                        for (let coy = -1; coy <= 1; coy++) {
+                            const dist = this.distanceSquared(hx, hy, ox, oy, cox, coy);
+                            if (dist < min1) {
+                                min2 = min1;
+                                min1 = dist;
+                            } else if (dist < min2) {
+                                min2 = dist;
+                            }
+                        }
+                    }
+        
+                    return Math.sqrt(min2);
+                case 2:
+                    for (let cox = -1; cox <= 1; cox++) {
+                        for (let coy = -1; coy <= 1; coy++) {
+                            const dist = this.distanceSquared(hx, hy, ox, oy, cox, coy);
+                            if (dist < min1) {
+                                min3 = min2;
+                                min2 = min1;
+                                min1 = dist;
+                            } else if (dist < min2) {
+                                min3 = min2;
+                                min2 = dist;
+                            } else if (dist < min3) {
+                                min3 = dist;
+                            }
+                        }
+                    }
+        
+                    return Math.sqrt(min2);
             }
 
-            let val = Math.sqrt(minDist);
-            val *= 2;
-            val -= 1
-            return val;
-        }
-
-        private secondOrderNoise(hx: number, hy: number, ox: number, oy: number): number {
-            let min1 = 99999;
-            let min2 = min1;
-            for (let cox = -1; cox <= 1; cox++) {
-                for (let coy = -1; coy <= 1; coy++) {
-                    const dist = this.distanceSquared(hx, hy, ox, oy, cox, coy);
-                    if (dist < min1) {
-                        min2 = min1;
-                        min1 = dist;
-                    } else if (dist < min2) {
-                        min2 = dist;
-                    }
-                }
-            }
-
-            return (Math.sqrt(min2) * 2) - 1;
-        }
-
-        private thirdOrderNoise(hx: number, hy: number, ox: number, oy: number): number {
-            let min1 = 99999;
-            let min2 = min1;
-            let min3 = min2;
-            for (let cox = -1; cox <= 1; cox++) {
-                for (let coy = -1; coy <= 1; coy++) {
-                    const dist = this.distanceSquared(hx, hy, ox, oy, cox, coy);
-                    if (dist < min1) {
-                        min3 = min2;
-                        min2 = min1;
-                        min1 = dist;
-                    } else if (dist < min2) {
-                        min3 = min2;
-                        min2 = dist;
-                    } else if (dist < min3) {
-                        min3 = dist;
-                    }
-                }
-            }
-
-            return (Math.sqrt(min2) * 2) - 1;
+            throw "impossible state, invalid order"
         }
 
         // p for point, q for mystery point
